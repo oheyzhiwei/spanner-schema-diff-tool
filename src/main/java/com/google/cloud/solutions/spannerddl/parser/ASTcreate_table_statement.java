@@ -19,6 +19,8 @@ package com.google.cloud.solutions.spannerddl.parser;
 import com.google.cloud.solutions.spannerddl.diff.ASTTreeUtils;
 import com.google.common.base.Joiner;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -102,13 +104,18 @@ public class ASTcreate_table_statement extends SimpleNode {
     ret.append(getTableName());
     ret.append(" (");
     // append column and constraint definitions.
-    List<SimpleNode> tableElements = new ArrayList<>();
-    tableElements.addAll(getColumns().values());
+    // Since there is no guarantee of the ordering for the columns for the helper functions that use HashMap etc,
+    // we just sort the columns / constraints lexicographically. This is primarily for the comparison to be accurate.
+    List<String> columns = getColumns().values().stream().map(e -> e.toString()).sorted().collect(Collectors.toList());
+    ret.append(Joiner.on(", ").join(columns));
 
     if (this.withConstraints) {
-        tableElements.addAll(getConstraints().values());
+        List<String> constraints = getConstraints().values().stream().map(e -> e.toString()).sorted().collect(Collectors.toList());
+        if (constraints.size() > 0) {
+            ret.append(", ");
+            ret.append(Joiner.on(", ").join(constraints));
+        }
     }
-    ret.append(Joiner.on(", ").join(tableElements));
     ret.append(") ");
     ret.append(getPrimaryKey());
 
