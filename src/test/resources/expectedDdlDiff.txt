@@ -164,5 +164,8 @@ ALTER TABLE test_rdp DROP ROW DELETION POLICY
 
 ALTER TABLE test_rdp REPLACE ROW DELETION POLICY (older_than(created_at, INTERVAL 99 DAY))
 
+== TEST 29 diff column order
+# No change
+
 ==
 

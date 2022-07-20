@@ -244,7 +244,7 @@ create table test_rdp (
   col1 int64,
   col2 int64,
   created_at timestamp,
-) primary key (col1), row deletion policy (older_than(created_at, interval 2 DAY));
+) primary key (col1), ROW DELETION POLICY (older_than(created_at, interval 2 DAY));
 
 == TEST 27 drop row deletion policy
 
@@ -262,5 +262,12 @@ create table test_rdp (
   created_at timestamp,
 ) primary key (col1), row deletion policy (older_than(created_at, interval 99 DAY));
 
+== TEST 29 diff column order
+
+create table test_rdp (
+  col2 int64,
+  col1 int64,
+  created_at timestamp,
+) primary key (col1), row deletion policy (older_than(created_at, interval 99 DAY));
 ==
 

@@ -305,6 +305,7 @@ public class DdlDiff {
         && right.getRowDeletionPolicyClause().isPresent()
         && !(left.getRowDeletionPolicyClause().get()
              .equals(right.getRowDeletionPolicyClause().get()))) {
+        LOG.info("Row Deletion Policy is different. \nLeft: {} \nRight: {}", left.getRowDeletionPolicyClause().get(), right.getRowDeletionPolicyClause().get());
         alterStatements.add(
                             "ALTER TABLE "
                             + left.getTableName()

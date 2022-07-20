@@ -25,4 +25,13 @@ public class ASTrow_deletion_policy_clause extends SimpleNode {
         // eg ROW DELETION POLICY (OLDER_THAN(ExpiredDate, INTERVAL 0 DAY));
         return String.format("ROW DELETION POLICY (%s)", ((ASTrow_deletion_policy_expression) children[0]));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof ASTrow_deletion_policy_clause) {
+            // lazy: compare text rendering.
+            return this.toString().equals(other.toString());
+        }
+        return false;
+    }
 }
