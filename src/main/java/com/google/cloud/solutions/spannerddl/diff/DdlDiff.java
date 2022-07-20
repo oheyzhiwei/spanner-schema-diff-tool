@@ -652,6 +652,9 @@ public class DdlDiff {
         output.append(statement);
         output.append(";\n\n");
       }
+      if (output.toString().isEmpty()) {
+          LOG.info("No diff detected.");
+      }
 
       Files.write(
           new File(commandLine.getOptionValue(OUTPUT_DDL_FILE_OPT)).toPath(),
